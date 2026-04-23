@@ -2,8 +2,11 @@ import os
 import requests
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
+from dotenv import load_dotenv
 
-app = Flask(__name__, static_folder='../.')
+load_dotenv()
+
+app = Flask(__name__)
 CORS(app)
 
 CLOUD_NAME    = os.getenv("CLOUDINARY_CLOUD_NAME")
@@ -11,7 +14,7 @@ UPLOAD_PRESET = os.getenv("CLOUDINARY_UPLOAD_PRESET")
 
 @app.route("/")
 def index():
-    return send_from_directory('..', 'cam.html')
+    return send_from_directory('.', 'cam.html')
 
 @app.route("/upload", methods=["POST"])
 def upload():
@@ -27,3 +30,6 @@ def upload():
     )
 
     return jsonify(response.json()), response.status_code
+
+if __name__ == "__main__":
+    app.run(debug=False)
